@@ -49,17 +49,17 @@ Enter the password you set during installation (or set it if this is your first 
 
 Create a Database
 ```
-CREATE DATABASE todo_db;
+CREATE DATABASE my_database;
 ```
 
 Create a User
 ```
-CREATE USER 'firstuser'@'localhost:3306' IDENTIFIED BY 'firstpassword';
+CREATE USER 'username'@'localhost:3306' IDENTIFIED BY 'password';
 ```
 
 Grant Permissions
 ```
-GRANT ALL PRIVILEGES ON first_todo_db.* TO 'firstuser'@'localhost:3306';
+GRANT ALL PRIVILEGES ON my_database.* TO 'username'@'localhost:3306';
 FLUSH PRIVILEGES;
 ```
 </details>
@@ -71,6 +71,15 @@ Create and seed your database as defined with prisma/schema.
 ```
 npx prisma migrate dev --name init
 ```
+
+Create a `.env` file in Next-Task-API and assign the environment variable `DATABASE_URL` with
+
+```
+DATABASE_URL="mysql://username:password@localhost:3306/my_database"
+```
+
+replacing the username, password, and my_database with the names, password and database name you chose on your MySQL setup. 
+
 </details>
 
 <details>
