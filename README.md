@@ -7,21 +7,27 @@ https://www.prisma.io/docs/orm/reference/system-requirements
 - yarn
 - mysql
 
-# local development
+# local development setup
+<details>
+<summary> Install and Start MySQL </summary> 
 
-## install mysql
-- macOS: use Homebrew to instlal MySQL
+#### 1. Install MySQL
+
+- macOS: use Homebrew to install MySQL
+
 ```
 brew install mysql
 ```
-- Windows: Use the MySQL Installer
-- Linux: 
+
+- Windows: Use the MySQL Installer (https://dev.mysql.com/downloads/installer/)
+- Linux: for any Ubuntu or Debian-based distributions
 ```
 sudo apt update
 sudo apt install mysql-server
 ``` 
 
-## start mysql server 
+
+#### 2. Start MySQL Server: 
 ```
 # macOS (Homebrew)
 brew services start mysql
@@ -33,25 +39,73 @@ sudo service mysql start
 # The service should automatically start after installation, but you can manually start it through the Services app.
 ```
 
-## configure MySQL Database
-1. Log into MySQL: https://dev.mysql.com/doc/mysql-getting-started/en/ 
+#### 3. configure the MySQL Database with a user and grant the user permissions. 
+
+Log into MySQL: https://dev.mysql.com/doc/mysql-getting-started/en/ 
 ```
 mysql -u root -p
 ```
 Enter the password you set during installation (or set it if this is your first time). 
 
-2. Create a Database
+Create a Database
 ```
 CREATE DATABASE todo_db;
 ```
 
-3. Create a User
+Create a User
 ```
 CREATE USER 'firstuser'@'localhost:3306' IDENTIFIED BY 'firstpassword';
 ```
 
-4. Grant Permissions
+Grant Permissions
 ```
 GRANT ALL PRIVILEGES ON first_todo_db.* TO 'firstuser'@'localhost:3306';
 FLUSH PRIVILEGES;
 ```
+</details>
+
+<details>
+<summary> Run Prisma Migrate </summary> 
+Create and seed your database as defined with prisma/schema. 
+
+```
+npx prisma migrate dev --name init
+```
+</details>
+
+<details>
+<summary> Run locally </summary> 
+run the following command to run the app: 
+
+```
+npm run dev
+```
+local application should deliver on `localhost:8080`
+</details>
+<br>
+
+
+
+# Using the REST API
+
+### GET 
+- `/tasks/`: get all tasks
+- `/tasks/:id`: fetch a unique task by it's `id`
+
+### POST 
+-`/tasks`: create new task
+- Body: 
+    - `title: String`: title of the task
+    - `color: String`: color of the task
+    - `id` is a randomly assigned uuid
+    - `completed` is set by default `false`
+
+### PUT 
+- `/tass/:id`: Update a task by it's `id`
+- Body: 
+    - `title: String`: title of the task
+    - `color: String`: color of the task
+    - `completed: Boolean`: status of the task
+
+### DELETE
+- `/tasks/:id`: Delete a post by it's `id`
