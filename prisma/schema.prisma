@@ -14,7 +14,7 @@ generator client {
 }
 
 model Task {
-  id  Int @id @default(autoincrement())
+  id  String @id @default(uuid())
   title String  @db.VarChar(255)
   color String
   completed Boolean @default(false)
