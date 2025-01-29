@@ -1,120 +1,139 @@
-# next-task-api
-A REST API with CRUD for a To Do App built with Express and Prisma with a MySQL Database
+# Next Task API 📝
 
-# prerequisites: 
-https://www.prisma.io/docs/orm/reference/system-requirements 
-- npm
-- yarn
-- mysql
+A modern REST API for task management built with Express.js and Prisma, using MySQL as the database backend.
 
-# local development setup
-<details>
-<summary> Install and Start MySQL </summary> 
+## Features ✨
 
-#### 1. Install MySQL
+- Full CRUD operations for tasks
+- MySQL database integration
+- Prisma ORM for type-safe database queries
+- RESTful API design
+- UUID-based task identification
 
-- macOS: use Homebrew to install MySQL
+## Prerequisites 🛠️
 
+- Node.js (v14 or higher)
+- npm or yarn
+- MySQL (v5.7 or higher)
+- [Additional Prisma requirements](https://www.prisma.io/docs/orm/reference/system-requirements)
+
+## Installation 🚀
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/msyinmei/next-task-api.git
+cd next-task-api
 ```
+
+### 2. Install dependencies
+```bash
+npm install
+# or
+yarn install
+```
+
+### 3. Database Setup
+
+<details>
+<summary>MySQL Installation & Configuration</summary>
+
+#### Install MySQL
+
+**macOS:**
+```bash
 brew install mysql
 ```
 
-- Windows: Use the MySQL Installer (https://dev.mysql.com/downloads/installer/)
-- Linux: for any Ubuntu or Debian-based distributions
-```
+**Linux (Ubuntu/Debian):**
+```bash
 sudo apt update
 sudo apt install mysql-server
-``` 
-
-
-#### 2. Start MySQL Server: 
 ```
-# macOS (Homebrew)
+
+**Windows:**
+Download and install from [MySQL Installer](https://dev.mysql.com/downloads/installer/)
+
+#### Start MySQL Server
+
+**macOS:**
+```bash
 brew services start mysql
+```
 
-# Linux
+**Linux:**
+```bash
 sudo service mysql start
-
-# Windows
-# The service should automatically start after installation, but you can manually start it through the Services app.
 ```
 
-#### 3. configure the MySQL Database with a user and grant the user permissions. 
+**Windows:**
+MySQL service starts automatically after installation.
 
-Log into MySQL: https://dev.mysql.com/doc/mysql-getting-started/en/ 
-```
+#### Database Configuration
+
+1. Log into MySQL:
+```bash
 mysql -u root -p
 ```
-Enter the password you set during installation (or set it if this is your first time). 
 
-Create a Database
-```
+2. Create database and user:
+```sql
 CREATE DATABASE my_database;
-```
-
-Create a User
-```
-CREATE USER 'username'@'localhost:3306' IDENTIFIED BY 'password';
-```
-
-Grant Permissions
-```
-GRANT ALL PRIVILEGES ON my_database.* TO 'username'@'localhost:3306';
+CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON my_database.* TO 'username'@'localhost';
 FLUSH PRIVILEGES;
 ```
 </details>
 
-<details>
-<summary> Run Prisma Migrate </summary> 
-Create and seed your database as defined with prisma/schema. 
+### 4. Environment Setup
 
-```
-npx prisma migrate dev --name init
-```
-
-Create a `.env` file in Next-Task-API and assign the environment variable `DATABASE_URL` with
-
-```
+Create a `.env` file in the project root:
+```bash
 DATABASE_URL="mysql://username:password@localhost:3306/my_database"
 ```
 
-replacing the username, password, and my_database with the names, password and database name you chose on your MySQL setup. 
-
-</details>
-
-<details>
-<summary> Run locally </summary> 
-run the following command to run the app: 
-
+### 5. Database Migration
+```bash
+npx prisma migrate dev --name init
 ```
+
+### 6. Start the Server
+```bash
 npm run dev
 ```
-local application should deliver on `localhost:8080`
-</details>
-<br>
 
+The API will be available at `http://localhost:8080`
 
+## API Documentation 📚
 
-# Using the REST API
+### Tasks Endpoints
 
-### GET 
-- `/tasks/`: get all tasks
-- `/tasks/:id`: fetch a unique task by it's `id`
+| Method | Endpoint     | Description         | Request Body                                    |
+|--------|-------------|---------------------|------------------------------------------------|
+| GET    | `/tasks`    | Get all tasks       | -                                              |
+| GET    | `/tasks/:id`| Get task by ID      | -                                              |
+| POST   | `/tasks`    | Create new task     | `{ title: String, color: String }`             |
+| PUT    | `/tasks/:id`| Update task         | `{ title: String, color: String, completed: Boolean }` |
+| DELETE | `/tasks/:id`| Delete task         | -                                              |
 
-### POST 
--`/tasks`: create new task
-- Body: 
-    - `title: String`: title of the task
-    - `color: String`: color of the task
-    - `id` is a randomly assigned uuid
-    - `completed` is set by default `false`
+### Request Body Schema
 
-### PUT 
-- `/tass/:id`: Update a task by it's `id`
-- Body: 
-    - `title: String`: title of the task
-    - `color: String`: color of the task
-    - `completed: Boolean`: status of the task
+```typescript
+{
+  title: string;      // Task title
+  color: string;      // Task color
+  completed?: boolean; // Task completion status (default: false)
+  id: string;         // Auto-generated UUID
+}
+```
 
-### DELETE
-- `/tasks/:id`: Delete a post by it's `id`
+## Contributing 🤝
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License 📄
+
+[MIT License](LICENSE)
+
+## Support 💬
+
+For support, please open an issue in the GitHub repository.
